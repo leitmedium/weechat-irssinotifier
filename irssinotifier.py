@@ -43,12 +43,12 @@ def notify_show(data, bufferp, uber_empty, tagsn, isdisplayed,
         ishilight, prefix, message):
 
     if weechat.buffer_get_string(bufferp, "localvar_type") == "private":
-        show_notification(prefix, message)
+        show_notification(prefix, prefix, message)
 
     elif ishilight == "1":
         buffer = (weechat.buffer_get_string(bufferp, "short_name") or
                 weechat.buffer_get_string(bufferp, "name"))
-        show_notification(buffer, prefix + ": " + message)
+        show_notification(buffer, prefix, message)
 
     return weechat.WEECHAT_RC_OK
 
@@ -67,11 +67,11 @@ def encrypt(text):
     output = string.replace(output,"=","")
     return output
 
-def show_notification(chan, message):
+def show_notification(chan, nick, message):
     API_TOKEN = weechat.config_get_plugin("api_token")
     if API_TOKEN != "":
         url = "https://irssinotifier.appspot.com/API/Message"
-        command = "curl -s -d apiToken=" + API_TOKEN + " -d nick=" + encrypt(chan) + " -d channel=" + encrypt(chan) + " -d message=" + encrypt(message) + " -d version=12 " + url
+        command = "curl -s -d apiToken=" + API_TOKEN + " -d nick=" + encrypt(nick) + " -d channel=" + encrypt(chan) + " -d message=" + encrypt(message) + " -d version=12 " + url
         command = shlex.split(command)
         p1 = subprocess.Popen(command)
         p1.communicate()
