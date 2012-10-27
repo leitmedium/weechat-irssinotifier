@@ -21,11 +21,10 @@ You're done. From now on you should receive push notifications to your Android f
 
 ## Todo
 
-1. Set encryption password in environment rather than on command line call for increased security
-2. Get rid of curl dependency and use python itself to do the http call (non-blocking).
-3. Make it configurable to notify about current window or not.
-4. Make it configurable to notify only while being in away mode.
-5. Make it configurable to send more details (e.g. local timestamp).
+1. Make it configurable to notify about current window or not.
+2. Make it configurable to notify only while being in away mode.
+3. Make it configurable to send more details (e.g. local timestamp).
+4. Get rid of curl dependency and use python itself to do the http call (non-blocking).
 
 ## Security
 

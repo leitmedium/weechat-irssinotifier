@@ -57,12 +57,12 @@ def notify_show(data, bufferp, uber_empty, tagsn, isdisplayed,
 
 def encrypt(text):
     encryption_password = weechat.config_get_plugin("encryption_password")
-    openssl = "openssl enc -aes-128-cbc -salt -base64 -A -pass pass:" + encryption_password 
+    openssl = "openssl enc -aes-128-cbc -salt -base64 -A -pass env:ENCRYPTION_PASSWORD"
     openssl = shlex.split(openssl)
     echo = "echo " + text
     echo = shlex.split(echo)
     p1 = subprocess.Popen(echo, stdout=subprocess.PIPE) 
-    p2 = subprocess.Popen(openssl, stdin=p1.stdout, stdout=subprocess.PIPE) 
+    p2 = subprocess.Popen(openssl, stdin=p1.stdout, stdout=subprocess.PIPE, env={"ENCRYPTION_PASSWORD": encryption_password})
     p1.stdout.close()
     output = p2.communicate()[0]
     output = string.replace(output,"/","_")
