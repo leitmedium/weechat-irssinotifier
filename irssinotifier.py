@@ -1,4 +1,5 @@
 # Author: Caspar Clemens Mierau <ccm@screenage.de>
+# Homepage: https://github.com/leitmedium/weechat-irssinotifier
 # Derived from: notifo
 #   Author: ochameau <poirot.alex AT gmail DOT com>
 #   Homepage: https://github.com/ochameau/weechat-notifo
@@ -14,16 +15,18 @@
 # IrssiNotifier first: https://irssinotifier.appspot.com
 #
 # Requires Weechat 0.3.0, curl, openssl
-# Released under GNU GPL v2
+# Released under GNU GPL v3
 #
-# 2012-10-26, au <poirot.alex@gmail.com>:
-#     version 0.1: merge notify.py and notifo_notify.py in order to avoid
-#                  sending notifications when channel or private buffer is
-#                  already opened
+# 2012-10-27, ccm <ccm@screenage.de>:
+#     version 0.2: curl uses secure command call (decreases risk of command
+#                  injection)
+#                  correct split of nick and channel name in a hilight
+# 2012-10-26, ccm <ccm@screenage.de>:
+#     version 0.1: initial release - working proof of concept 
 
 import weechat, string, os, urllib, subprocess, shlex
 
-weechat.register("irssinotifier", "Caspar Clemens Mierau <ccm@screenage.de>", "0.1", "GPL", "irssinotifier: Send push notifications to you iPhone/Android about your private message and highligts.", "", "")
+weechat.register("irssinotifier", "Caspar Clemens Mierau <ccm@screenage.de>", "0.2", "GPL3", "irssinotifier: Send push notifications to Android's IrssiNotifier about your private message and highligts.", "", "")
 
 settings = {
     "api_token": "",
