@@ -71,6 +71,9 @@ def show_notification(chan, message):
     API_TOKEN = weechat.config_get_plugin("api_token")
     if API_TOKEN != "":
         url = "https://irssinotifier.appspot.com/API/Message"
-        os.system("curl -s -d apiToken=" + API_TOKEN + " -d nick=" + encrypt(chan) + " -d channel=" + encrypt(chan) + " -d message=" + encrypt(message) + " -d version=12 " + url)
+        command = "curl -s -d apiToken=" + API_TOKEN + " -d nick=" + encrypt(chan) + " -d channel=" + encrypt(chan) + " -d message=" + encrypt(message) + " -d version=12 " + url
+        command = shlex.split(command)
+        p1 = subprocess.Popen(command)
+        p1.communicate()
 
 # vim: autoindent expandtab smarttab shiftwidth=4
