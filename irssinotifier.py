@@ -24,7 +24,8 @@
 # 2012-10-26, ccm <ccm@screenage.de>:
 #     version 0.1: initial release - working proof of concept 
 
-import weechat, string, os, urllib, subprocess, shlex
+import weechat, string, os, urllib, urllib2, shlex
+from subprocess import Popen, PIPE
 
 weechat.register("irssinotifier", "Caspar Clemens Mierau <ccm@screenage.de>", "0.2", "GPL3", "irssinotifier: Send push notifications to Android's IrssiNotifier about your private message and highligts.", "", "")
 
@@ -45,8 +46,12 @@ weechat.hook_print("", "irc_privmsg", "", 1, "notify_show", "")
 def notify_show(data, bufferp, uber_empty, tagsn, isdisplayed,
         ishilight, prefix, message):
 
-    if weechat.buffer_get_string(bufferp, "localvar_type") == "private":
-        show_notification(prefix, prefix, message)
+    #get local nick for buffer
+    mynick = weechat.buffer_get_string(bufferp,"localvar_nick")
+
+    # only notify if the message was not sent by myself
+    if (weechat.buffer_get_string(bufferp, "localvar_type") == "private") and (prefix!=mynick):
+            show_notification(prefix, prefix, message)
 
     elif ishilight == "1":
         buffer = (weechat.buffer_get_string(bufferp, "short_name") or
@@ -57,14 +62,8 @@ def notify_show(data, bufferp, uber_empty, tagsn, isdisplayed,
 
 def encrypt(text):
     encryption_password = weechat.config_get_plugin("encryption_password")
-    openssl = "openssl enc -aes-128-cbc -salt -base64 -A -pass env:ENCRYPTION_PASSWORD"
-    openssl = shlex.split(openssl)
-    echo = "echo " + text
-    echo = shlex.split(echo)
-    p1 = subprocess.Popen(echo, stdout=subprocess.PIPE) 
-    p2 = subprocess.Popen(openssl, stdin=p1.stdout, stdout=subprocess.PIPE, env={"ENCRYPTION_PASSWORD": encryption_password})
-    p1.stdout.close()
-    output = p2.communicate()[0]
+    command="openssl enc -aes-128-cbc -salt -base64 -A -pass pass:%s" % (encryption_password)
+    output,errors = Popen(shlex.split(command),stdin=PIPE,stdout=PIPE,stderr=PIPE).communicate(text+" ")
     output = string.replace(output,"/","_")
     output = string.replace(output,"+","-")
     output = string.replace(output,"=","")
@@ -74,9 +73,7 @@ def show_notification(chan, nick, message):
     API_TOKEN = weechat.config_get_plugin("api_token")
     if API_TOKEN != "":
         url = "https://irssinotifier.appspot.com/API/Message"
-        command = "curl -s -d apiToken=" + API_TOKEN + " -d nick=" + encrypt(nick) + " -d channel=" + encrypt(chan) + " -d message=" + encrypt(message) + " -d version=12 " + url
-        command = shlex.split(command)
-        p1 = subprocess.Popen(command)
-        p1.communicate()
+        postdata = urllib.urlencode({'apiToken':API_TOKEN,'nick':encrypt(nick),'channel':encrypt(chan),'message':encrypt(message),'version':12})
+        urllib2.urlopen(url,postdata)
 
 # vim: autoindent expandtab smarttab shiftwidth=4

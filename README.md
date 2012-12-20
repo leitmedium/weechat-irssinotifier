@@ -36,7 +36,6 @@ This script needs
 
 * Weechat
 * Openssl
-* Curl
 
 All of these dependencies should be available from your package manager.
 
