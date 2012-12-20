@@ -24,7 +24,7 @@
 # 2012-10-26, ccm <ccm@screenage.de>:
 #     version 0.1: initial release - working proof of concept 
 
-import weechat, string, os, urllib, subprocess, shlex
+import weechat, string, os, urllib, urllib2, subprocess
 
 weechat.register("irssinotifier", "Caspar Clemens Mierau <ccm@screenage.de>", "0.2", "GPL3", "irssinotifier: Send push notifications to Android's IrssiNotifier about your private message and highligts.", "", "")
 
@@ -78,9 +78,7 @@ def show_notification(chan, nick, message):
     API_TOKEN = weechat.config_get_plugin("api_token")
     if API_TOKEN != "":
         url = "https://irssinotifier.appspot.com/API/Message"
-        command = "curl -s -d apiToken=" + API_TOKEN + " -d nick=" + encrypt(nick) + " -d channel=" + encrypt(chan) + " -d message=" + encrypt(message) + " -d version=12 " + url
-        command = shlex.split(command)
-        p1 = subprocess.Popen(command)
-        p1.communicate()
+        postdata = urllib.urlencode({'apiToken':API_TOKEN,'nick':encrypt(nick),'channel':encrypt(chan),'message':encrypt(message),'version':12})
+         urllib2.urlopen(url,postdata)
 
 # vim: autoindent expandtab smarttab shiftwidth=4
