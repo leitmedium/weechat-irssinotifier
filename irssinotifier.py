@@ -45,7 +45,11 @@ weechat.hook_print("", "irc_privmsg", "", 1, "notify_show", "")
 def notify_show(data, bufferp, uber_empty, tagsn, isdisplayed,
         ishilight, prefix, message):
 
-    if weechat.buffer_get_string(bufferp, "localvar_type") == "private":
+    #get local nick for buffer
+    mynick = weechat.buffer_get_string(bufferp,"localvar_nick")
+
+    # only notify if the message was not sent by myself
+    if weechat.buffer_get_string(bufferp, "localvar_type") == "private" and prefix!=mynick:
         show_notification(prefix, prefix, message)
 
     elif ishilight == "1":
