@@ -23,7 +23,7 @@
 #                  - removed curl dependency
 #                  - cleaned up openssl call
 #                  - no more crashes due to missing escaping
-#                  - Kudos to Jürgen "@tante" Geuter <tante@the-gay-bar.com>
+#                  - Kudos to Juergen "@tante" Geuter <tante@the-gay-bar.com>
 #                    for the patches!
 # 2012-10-27, ccm <ccm@screenage.de>:
 #     version 0.2: - curl uses secure command call (decreases risk of command
