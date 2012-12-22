@@ -3,7 +3,7 @@
 # Derived from: notifo
 #   Author: ochameau <poirot.alex AT gmail DOT com>
 #   Homepage: https://github.com/ochameau/weechat-notifo
-# An from: notify
+# And from: notify
 #   Author: lavaramano <lavaramano AT gmail DOT com>
 #   Improved by: BaSh - <bash.lnx AT gmail DOT com>
 #   Ported to Weechat 0.3.0 by: Sharn - <sharntehnub AT gmail DOT com)
@@ -17,17 +17,25 @@
 # Requires Weechat 0.3.0, curl, openssl
 # Released under GNU GPL v3
 #
+# 2012-12-22, ccm <ccm@screenage.de>:
+#     version 0.3: - no longer notifies if the message comes from the user
+#                    itself
+#                  - removed curl dependency
+#                  - cleaned up openssl call
+#                  - no more crashes due to missing escaping
+#                  - Kudos to Jürgen "@tante" Geuter <tante@the-gay-bar.com>
+#                    for the patches!
 # 2012-10-27, ccm <ccm@screenage.de>:
-#     version 0.2: curl uses secure command call (decreases risk of command
-#                  injection)
-#                  correct split of nick and channel name in a hilight
+#     version 0.2: - curl uses secure command call (decreases risk of command
+#                    injection)
+#                  - correct split of nick and channel name in a hilight
 # 2012-10-26, ccm <ccm@screenage.de>:
-#     version 0.1: initial release - working proof of concept 
+#     version 0.1: - initial release - working proof of concept 
 
 import weechat, string, os, urllib, urllib2, shlex
 from subprocess import Popen, PIPE
 
-weechat.register("irssinotifier", "Caspar Clemens Mierau <ccm@screenage.de>", "0.2", "GPL3", "irssinotifier: Send push notifications to Android's IrssiNotifier about your private message and highligts.", "", "")
+weechat.register("irssinotifier", "Caspar Clemens Mierau <ccm@screenage.de>", "0.3", "GPL3", "irssinotifier: Send push notifications to Android's IrssiNotifier about your private message and highligts.", "", "")
 
 settings = {
     "api_token": "",
@@ -73,7 +81,7 @@ def show_notification(chan, nick, message):
     API_TOKEN = weechat.config_get_plugin("api_token")
     if API_TOKEN != "":
         url = "https://irssinotifier.appspot.com/API/Message"
-        postdata = urllib.urlencode({'apiToken':API_TOKEN,'nick':encrypt(nick),'channel':encrypt(chan),'message':encrypt(message),'version':12})
+        postdata = urllib.urlencode({'apiToken':API_TOKEN,'nick':encrypt(nick),'channel':encrypt(chan),'message':encrypt(message),'version':13})
         urllib2.urlopen(url,postdata)
 
 # vim: autoindent expandtab smarttab shiftwidth=4

@@ -24,7 +24,6 @@ You're done. From now on you should receive push notifications to your Android f
 1. Make it configurable to notify about current window or not.
 2. Make it configurable to notify only while being in away mode.
 3. Make it configurable to send more details (e.g. local timestamp).
-4. Get rid of curl dependency and use python itself to do the http call (non-blocking).
 
 ## Security
 
