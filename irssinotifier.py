@@ -14,7 +14,7 @@
 # This plugin brings IrssiNotifier to your Weechat. Setup and install
 # IrssiNotifier first: https://irssinotifier.appspot.com
 #
-# Requires Weechat 0.3.0, curl, openssl
+# Requires Weechat 1.3.0, curl, openssl
 # Released under GNU GPL v3
 #
 # 2012-12-22, ccm <ccm@screenage.de>:
@@ -82,6 +82,10 @@ def show_notification(chan, nick, message):
     if API_TOKEN != "":
         url = "https://irssinotifier.appspot.com/API/Message"
         postdata = urllib.urlencode({'apiToken':API_TOKEN,'nick':encrypt(nick),'channel':encrypt(chan),'message':encrypt(message),'version':13})
-        urllib2.urlopen(url,postdata)
+        version = weechat.info_get("version_number", "") or 0
+        if int(version) >= 0x00030700: # use weechat.hook_process_hashtable only with weechat version >= 0.3.7
+          hook1 = weechat.hook_process_hashtable("url:"+url, { "postfields":  postdata}, 2000, "", "")
+        else:
+          urllib2.urlopen(url,postdata)
 
 # vim: autoindent expandtab smarttab shiftwidth=4
