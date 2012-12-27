@@ -17,6 +17,9 @@
 # Requires Weechat 1.3.0, openssl
 # Released under GNU GPL v3
 #
+# 2012-12-27, ccm <ccm@screenage.de>:
+#     version 0.4: - use non-blocking hook_process_hashtable for url call
+#                    for weechat >= 0.3.7
 # 2012-12-22, ccm <ccm@screenage.de>:
 #     version 0.3: - no longer notifies if the message comes from the user
 #                    itself
@@ -35,7 +38,7 @@
 import weechat, string, os, urllib, urllib2, shlex
 from subprocess import Popen, PIPE
 
-weechat.register("irssinotifier", "Caspar Clemens Mierau <ccm@screenage.de>", "0.3", "GPL3", "irssinotifier: Send push notifications to Android's IrssiNotifier about your private message and highligts.", "", "")
+weechat.register("irssinotifier", "Caspar Clemens Mierau <ccm@screenage.de>", "0.4", "GPL3", "irssinotifier: Send push notifications to Android's IrssiNotifier about your private message and highligts.", "", "")
 
 settings = {
     "api_token": "",
