@@ -14,7 +14,7 @@
 # This plugin brings IrssiNotifier to your Weechat. Setup and install
 # IrssiNotifier first: https://irssinotifier.appspot.com
 #
-# Requires Weechat 1.3.0, curl, openssl
+# Requires Weechat 1.3.0, openssl
 # Released under GNU GPL v3
 #
 # 2012-12-22, ccm <ccm@screenage.de>:
