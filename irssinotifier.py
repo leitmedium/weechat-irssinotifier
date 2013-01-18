@@ -14,9 +14,11 @@
 # This plugin brings IrssiNotifier to your Weechat. Setup and install
 # IrssiNotifier first: https://irssinotifier.appspot.com
 #
-# Requires Weechat 1.3.0, openssl
+# Requires Weechat >= 0.3.7, openssl
 # Released under GNU GPL v3
 #
+# 2013-01-18, ccm <ccm@screenage.de>:
+#     version 0.5: - removed version check and legacy curl usage
 # 2012-12-27, ccm <ccm@screenage.de>:
 #     version 0.4: - use non-blocking hook_process_hashtable for url call
 #                    for weechat >= 0.3.7
@@ -38,7 +40,7 @@
 import weechat, string, os, urllib, urllib2, shlex
 from subprocess import Popen, PIPE
 
-weechat.register("irssinotifier", "Caspar Clemens Mierau <ccm@screenage.de>", "0.4", "GPL3", "irssinotifier: Send push notifications to Android's IrssiNotifier about your private message and highligts.", "", "")
+weechat.register("irssinotifier", "Caspar Clemens Mierau <ccm@screenage.de>", "0.5", "GPL3", "irssinotifier: Send push notifications to Android's IrssiNotifier about your private message and highligts.", "", "")
 
 settings = {
     "api_token": "",
