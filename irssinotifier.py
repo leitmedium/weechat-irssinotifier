@@ -86,6 +86,6 @@ def show_notification(chan, nick, message):
         url = "https://irssinotifier.appspot.com/API/Message"
         postdata = urllib.urlencode({'apiToken':API_TOKEN,'nick':encrypt(nick),'channel':encrypt(chan),'message':encrypt(message),'version':13})
         version = weechat.info_get("version_number", "") or 0
-          hook1 = weechat.hook_process_hashtable("url:"+url, { "postfields":  postdata}, 2000, "", "")
+        hook1 = weechat.hook_process_hashtable("url:"+url, { "postfields":  postdata}, 2000, "", "")
 
 # vim: autoindent expandtab smarttab shiftwidth=4
